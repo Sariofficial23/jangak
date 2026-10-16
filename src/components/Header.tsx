@@ -1,16 +1,13 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { getModerator } from "@/lib/admin";
 import LocaleSwitcher from "./LocaleSwitcher";
 import LogoutButton from "./LogoutButton";
 
 export default async function Header() {
   const t = await getTranslations("header");
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user, isAdmin } = await getModerator();
 
   return (
     <header className="bg-brand text-white">
@@ -32,6 +29,11 @@ export default async function Header() {
           <Link href="/favorites" className="hidden hover:opacity-80 sm:inline" aria-label={t("favorites")}>
             ♡
           </Link>
+          {isAdmin && (
+            <Link href="/admin" className="hover:opacity-80" aria-label={t("admin")}>
+              🛡️ <span className="hidden sm:inline">{t("admin")}</span>
+            </Link>
+          )}
           {user ? (
             <>
               <Link href="/my" className="hover:opacity-80" aria-label={t("myListings")}>

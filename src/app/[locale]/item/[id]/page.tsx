@@ -10,6 +10,8 @@ import FavoriteButton from "@/components/FavoriteButton";
 
 type Listing = {
   id: number;
+  user_id: string;
+  status: "pending" | "active" | "rejected" | "inactive";
   title: string;
   description: string;
   price: number | null;
@@ -33,7 +35,7 @@ async function getListing(id: string) {
   const { data } = await supabase
     .from("listings")
     .select(
-      "id, title, description, price, currency, deal_type, negotiable, condition, seller_type, contact_name, contact_phone, created_at, category:categories(name_ru, name_ky, name_uz), region:regions(name_ru, name_ky, name_uz), seller:profiles(name, created_at), photos:listing_photos(path, sort)",
+      "id, user_id, status, title, description, price, currency, deal_type, negotiable, condition, seller_type, contact_name, contact_phone, created_at, category:categories(name_ru, name_ky, name_uz), region:regions(name_ru, name_ky, name_uz), seller:profiles(name, created_at), photos:listing_photos(path, sort)",
     )
     .eq("id", Number(id))
     .maybeSingle();
@@ -86,8 +88,22 @@ export default async function ItemPage({
         ? t("exchange")
         : formatPrice(item.price, item.currency);
 
+  const isOwner = user?.id === item.user_id;
+  const banner =
+    isOwner && item.status !== "active"
+      ? item.status === "pending"
+        ? { text: t("statusPending"), cls: "bg-kernel/20 text-walnut" }
+        : item.status === "rejected"
+          ? { text: t("statusRejected"), cls: "bg-red-50 text-red-700" }
+          : { text: t("statusInactive"), cls: "bg-neutral-100 text-neutral-600" }
+      : null;
+
   return (
-    <div className="mx-auto grid max-w-6xl gap-6 px-4 py-6 lg:grid-cols-[1fr_340px]">
+    <div className="mx-auto max-w-6xl px-4 py-6">
+      {banner && (
+        <p className={`mb-5 rounded-xl px-4 py-3 text-sm font-semibold ${banner.cls}`}>{banner.text}</p>
+      )}
+      <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
       <div className="flex min-w-0 flex-col gap-6">
         <div className="overflow-hidden rounded-2xl bg-neutral-900">
           {photos.length ? (
@@ -174,6 +190,7 @@ export default async function ItemPage({
           <p className="font-semibold">📍 {localName(item.region, locale)}</p>
         </section>
       </aside>
+      </div>
     </div>
   );
 }

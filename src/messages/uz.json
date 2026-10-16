@@ -11,7 +11,8 @@
     "language": "Til",
     "login": "Kirish",
     "logout": "Chiqish",
-    "myListings": "Mening e'lonlarim"
+    "myListings": "Mening e'lonlarim",
+    "admin": "Moderatsiya"
   },
   "search": {
     "placeholder": "Nima qidiryapsiz?",
@@ -79,7 +80,10 @@
     "published": "E'lon qilindi",
     "noPhoto": "Rasm yo'q",
     "notFound": "E'lon topilmadi yoki olib tashlangan",
-    "back": "Bosh sahifaga"
+    "back": "Bosh sahifaga",
+    "statusPending": "E'lon moderatsiyada — tekshiruvdan so'ng qidiruvda ko'rinadi.",
+    "statusRejected": "E'lon moderator tomonidan rad etildi.",
+    "statusInactive": "E'lon e'londan olingan."
   },
   "auth": {
     "loginTitle": "Kirish",
@@ -152,5 +156,15 @@
     "add": "Saralanganlarga",
     "remove": "Saralanganlarda",
     "empty": "E'lon sahifasida ♡ ni bosing, u shu yerda paydo bo'ladi"
+  },
+  "admin": {
+    "title": "E'lonlarni moderatsiya qilish",
+    "pending": "Tekshiruvda",
+    "active": "Tasdiqlangan",
+    "rejected": "Rad etilgan",
+    "approve": "Tasdiqlash",
+    "reject": "Rad etish",
+    "seller": "Sotuvchi",
+    "empty": "E'lonlar yo'q"
   }
 }
