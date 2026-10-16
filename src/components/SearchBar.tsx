@@ -1,23 +1,40 @@
-import { useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
+import type { RefOption } from "@/lib/refs";
 
-// Пока только вёрстка — поиск подключим на этапе 1
-export default function SearchBar() {
-  const t = useTranslations("search");
+// Обычная HTML-форма: работает даже без JavaScript, ведёт на /<язык>/search
+export default async function SearchBar({
+  regions,
+  q = "",
+  region = "",
+}: {
+  regions: RefOption[];
+  q?: string;
+  region?: string;
+}) {
+  const t = await getTranslations("search");
+  const locale = await getLocale();
 
   return (
-    <form className="flex flex-col gap-3 sm:flex-row" role="search">
+    <form action={`/${locale}/search`} className="flex flex-col gap-3 sm:flex-row" role="search">
       <input
         type="search"
         name="q"
+        defaultValue={q}
         placeholder={`🔍 ${t("placeholder")}`}
-        className="h-14 w-full rounded-xl sm:flex-1 border-2 border-brand px-4 outline-none focus:ring-4 focus:ring-brand/20"
+        className="h-14 w-full rounded-xl border-2 border-brand px-4 outline-none focus:ring-4 focus:ring-brand/20 sm:flex-1"
       />
-      <button
-        type="button"
-        className="h-14 rounded-xl border-2 border-brand/40 px-4 text-left text-neutral-600 sm:w-64"
+      <select
+        name="region"
+        defaultValue={region}
+        className="h-14 rounded-xl border-2 border-brand/40 bg-white px-4 text-neutral-700 sm:w-64"
       >
-        📍 {t("location")}
-      </button>
+        <option value="">📍 {t("location")}</option>
+        {regions.map((r) => (
+          <option key={r.id} value={r.slug}>
+            {r.name}
+          </option>
+        ))}
+      </select>
       <button
         type="submit"
         className="h-14 rounded-xl bg-brand px-8 font-extrabold text-white transition hover:bg-brand-dark"

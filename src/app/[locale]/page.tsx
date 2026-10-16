@@ -2,6 +2,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import SearchBar from "@/components/SearchBar";
 import ListingCard from "@/components/ListingCard";
 import { categories } from "@/lib/categories";
+import CategoryIcon from "@/components/CategoryIcon";
+import { Link } from "@/i18n/navigation";
+import { getRefs } from "@/lib/refs";
 import { LISTING_CARD_SELECT, type ListingCardData } from "@/lib/listings";
 import { createClient } from "@/lib/supabase/server";
 
@@ -15,6 +18,7 @@ export default async function HomePage({
   const t = await getTranslations();
 
   const supabase = await createClient();
+  const { regions } = await getRefs(locale);
   const { data } = await supabase
     .from("listings")
     .select(LISTING_CARD_SELECT)
@@ -28,7 +32,7 @@ export default async function HomePage({
     <>
       <section className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-6">
-          <SearchBar />
+          <SearchBar regions={regions} />
         </div>
       </section>
 
@@ -39,21 +43,20 @@ export default async function HomePage({
         <ul className="grid grid-cols-3 gap-x-3 gap-y-6 sm:grid-cols-4 lg:grid-cols-6">
           {categories.map((c) => (
             <li key={c.key}>
-              <a
-                href="#"
+              <Link
+                href={{ pathname: "/search", query: { cat: c.key } }}
                 className="group flex flex-col items-center gap-2 text-center"
               >
                 <span
-                  className="flex h-16 w-16 items-center justify-center rounded-full text-3xl transition group-hover:scale-110 sm:h-20 sm:w-20 sm:text-4xl"
-                  style={{ backgroundColor: c.color }}
-                  aria-hidden
+                  className="flex h-16 w-16 items-center justify-center rounded-full ring-1 ring-walnut/5 transition group-hover:-translate-y-1 group-hover:shadow-md sm:h-20 sm:w-20"
+                  style={{ backgroundColor: c.bg }}
                 >
-                  {c.icon}
+                  <CategoryIcon name={c.key} className="h-10 w-10 sm:h-12 sm:w-12" />
                 </span>
                 <span className="text-sm font-semibold leading-tight group-hover:text-brand">
                   {t(`categories.${c.key}`)}
                 </span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

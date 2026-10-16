@@ -29,11 +29,17 @@ export default async function Header() {
             💬 {t("chat")}
           </a>
           <LocaleSwitcher label={t("language")} />
-          <a href="#" className="hidden hover:opacity-80 sm:inline" aria-label={t("favorites")}>
+          <Link href="/favorites" className="hidden hover:opacity-80 sm:inline" aria-label={t("favorites")}>
             ♡
-          </a>
+          </Link>
           {user ? (
-            <LogoutButton label={t("logout")} />
+            <>
+              <Link href="/my" className="hover:opacity-80" aria-label={t("myListings")}>
+                <span className="sm:hidden">👤</span>
+                <span className="hidden sm:inline">{t("myListings")}</span>
+              </Link>
+              <LogoutButton label={t("logout")} />
+            </>
           ) : (
             <Link href="/login" className="hover:opacity-80">
               {t("login")}

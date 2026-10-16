@@ -6,6 +6,7 @@ import { photoUrl } from "@/lib/supabase/config";
 import { formatDate, formatPrice, localName } from "@/lib/format";
 import type { NamedRow } from "@/lib/listings";
 import ShowPhone from "@/components/ShowPhone";
+import FavoriteButton from "@/components/FavoriteButton";
 
 type Listing = {
   id: number;
@@ -58,6 +59,13 @@ export default async function ItemPage({
   setRequestLocale(locale);
   const t = await getTranslations("listing");
   const item = await getListing(id);
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { data: fav } = user && item
+    ? await supabase.from("favorites").select("listing_id").eq("user_id", user.id).eq("listing_id", item.id).maybeSingle()
+    : { data: null };
 
   if (!item) {
     return (
@@ -140,6 +148,7 @@ export default async function ItemPage({
               💬 {t("message")}
             </button>
             {item.contact_phone && <ShowPhone phone={item.contact_phone} label={t("showPhone")} />}
+            <FavoriteButton listingId={item.id} initial={!!fav} loggedIn={!!user} />
           </div>
         </section>
 
