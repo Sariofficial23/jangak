@@ -2,6 +2,7 @@
   "expo": {
     "name": "Jangak.kg",
     "slug": "jangak",
+    "owner": "sariofficial23s-team",
     "scheme": "jangak",
     "version": "0.1.0",
     "orientation": "portrait",
@@ -13,6 +14,7 @@
     },
     "android": {
       "package": "kg.jangak.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#1E7A4C"
       }
