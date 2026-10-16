@@ -17,7 +17,8 @@
 
 ## База данных (Supabase)
 - Проект: https://ycamgqlhpvrqgtpgfcdv.supabase.co (регион Frankfurt)
-- Ключи — в `.env.local` (не коммитится), образец — `.env.example`. Ключ `service_role` никогда не класть в код
+- Переменные: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (публичные, в `.env.example`; локально — `.env.local`). Ключ `service_role` никогда не класть в код
+- Из облачной сессии Claude доступа к supabase.co нет — работу с базой проверять на Vercel
 - Схема — `supabase/migrations/*.sql`, применяется вручную через Supabase → SQL Editor, по порядку номеров
 - Таблицы: `regions`, `categories`, `profiles`, `listings`, `listing_photos`, `favorites`; фото — bucket `listing-photos` (папка = id пользователя)
 - Клиенты: `@/lib/supabase/server` (серверные компоненты) и `@/lib/supabase/client` (браузер)

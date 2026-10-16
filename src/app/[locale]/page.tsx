@@ -1,17 +1,28 @@
-import { useTranslations } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
-import { use } from "react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import SearchBar from "@/components/SearchBar";
+import ListingCard from "@/components/ListingCard";
 import { categories } from "@/lib/categories";
+import { LISTING_CARD_SELECT, type ListingCardData } from "@/lib/listings";
+import { createClient } from "@/lib/supabase/server";
 
-export default function HomePage({
+export default async function HomePage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = use(params);
+  const { locale } = await params;
   setRequestLocale(locale);
-  const t = useTranslations();
+  const t = await getTranslations();
+
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("listings")
+    .select(LISTING_CARD_SELECT)
+    .eq("status", "active")
+    .order("is_vip", { ascending: false })
+    .order("bumped_at", { ascending: false })
+    .limit(24);
+  const listings = (data ?? []) as unknown as ListingCardData[];
 
   return (
     <>
@@ -50,11 +61,19 @@ export default function HomePage({
 
       <section className="mx-auto max-w-6xl px-4 pb-14">
         <h2 className="mb-4 text-xl font-extrabold text-walnut">
-          {t("home.vip")}
+          {t("home.latest")}
         </h2>
-        <div className="rounded-2xl border-2 border-dashed border-brand/30 bg-white p-10 text-center text-neutral-500">
-          {t("home.empty")}
-        </div>
+        {listings.length ? (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {listings.map((item) => (
+              <ListingCard key={item.id} item={item} />
+            ))}
+          </div>
+        ) : (
+          <div className="rounded-2xl border-2 border-dashed border-brand/30 bg-white p-10 text-center text-neutral-500">
+            {t("home.empty")}
+          </div>
+        )}
       </section>
     </>
   );

@@ -8,7 +8,10 @@
     "favorites": "Saralanganlar",
     "profile": "Profil",
     "post": "E'lon berish",
-    "language": "Til"
+    "language": "Til",
+    "login": "Kirish",
+    "logout": "Chiqish",
+    "myListings": "Mening e'lonlarim"
   },
   "search": {
     "placeholder": "Nima qidiryapsiz?",
@@ -18,7 +21,8 @@
   "home": {
     "sections": "Jangak bo'limlari",
     "vip": "VIP e'lonlar",
-    "empty": "Tez orada bu yerda birinchi e'lonlar paydo bo'ladi. Birinchi sotuvchi bo'ling!"
+    "empty": "Tez orada bu yerda birinchi e'lonlar paydo bo'ladi. Birinchi sotuvchi bo'ling!",
+    "latest": "Yangi e'lonlar"
   },
   "categories": {
     "kids": "Bolalar dunyosi",
@@ -40,5 +44,75 @@
     "rules": "Qoidalar",
     "privacy": "Maxfiylik",
     "rights": "Barcha huquqlar himoyalangan."
+  },
+  "listing": {
+    "negotiable": "Kelishiladi",
+    "free": "Bepul",
+    "exchange": "Ayirboshlash",
+    "new": "Yangi",
+    "used": "Ishlatilgan",
+    "private": "Jismoniy shaxs",
+    "business": "Biznes",
+    "message": "Sotuvchiga yozish",
+    "showPhone": "Telefonni ko'rsatish",
+    "description": "Tavsif",
+    "seller": "Sotuvchi",
+    "location": "Joylashuv",
+    "published": "E'lon qilindi",
+    "noPhoto": "Rasm yo'q",
+    "notFound": "E'lon topilmadi yoki olib tashlangan",
+    "back": "Bosh sahifaga"
+  },
+  "auth": {
+    "loginTitle": "Kirish",
+    "registerTitle": "Ro'yxatdan o'tish",
+    "login": "Kirish",
+    "register": "Ro'yxatdan o'tish",
+    "email": "Elektron pochta",
+    "password": "Parol",
+    "passwordHint": "Kamida 6 ta belgi",
+    "name": "Ismingiz",
+    "noAccount": "Akkauntingiz yo'qmi?",
+    "haveAccount": "Akkauntingiz bormi?",
+    "checkEmail": "{email} manziliga xat yubordik. Uni ochib, manzilni tasdiqlang, so'ng kiring.",
+    "error": "Bo'lmadi: {message}",
+    "wrongCredentials": "Pochta yoki parol noto'g'ri"
+  },
+  "post": {
+    "title": "E'lon berish",
+    "describe": "Batafsil tavsiflang",
+    "titleLabel": "Sarlavha",
+    "titlePlaceholder": "Masalan, iPhone 13 128 GB, a'lo holatda",
+    "titleHint": "16 dan 70 tagacha belgi",
+    "category": "Kategoriya",
+    "choose": "Tanlang",
+    "photos": "Rasmlar",
+    "photosHint": "8 tagacha rasm. Birinchi rasm muqovada bo'ladi.",
+    "addPhoto": "Rasm qo'shish",
+    "descriptionLabel": "Tavsif",
+    "descriptionPlaceholder": "Batafsil yozing: holati, to'plami, nega sotilyapti…",
+    "descriptionHint": "40 dan 9000 tagacha belgi",
+    "deal": "Bitim turi",
+    "sell": "Sotish",
+    "price": "Narx",
+    "currency": "Valyuta",
+    "negotiable": "Kelishiladi",
+    "extra": "Qo'shimcha ma'lumot",
+    "condition": "Holati",
+    "sellerType": "Jismoniy shaxs yoki biznes",
+    "region": "Joylashuv",
+    "contacts": "Aloqa",
+    "contactName": "Aloqa uchun shaxs",
+    "phone": "Telefon",
+    "phonePlaceholder": "+996 700 123 456",
+    "publish": "E'lon qilish",
+    "publishing": "E'lon qilinmoqda…",
+    "errTitle": "Sarlavha 16 dan 70 tagacha belgi bo'lishi kerak",
+    "errDescription": "Tavsif kamida 40 ta belgi bo'lishi kerak",
+    "errCategory": "Kategoriyani tanlang",
+    "errRegion": "Joylashuvni tanlang",
+    "errPrice": "Narxni kiriting",
+    "errPhone": "Telefonni kiriting",
+    "errSave": "Saqlanmadi: {message}"
   }
 }
