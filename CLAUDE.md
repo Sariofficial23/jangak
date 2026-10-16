@@ -15,6 +15,14 @@
 - `src/components/` — шапка, подвал, поиск, переключатель языков
 - `public/brand/` — логотипы и иконки (SVG + PNG)
 
+## База данных (Supabase)
+- Проект: https://ycamgqlhpvrqgtpgfcdv.supabase.co (регион Frankfurt)
+- Ключи — в `.env.local` (не коммитится), образец — `.env.example`. Ключ `service_role` никогда не класть в код
+- Схема — `supabase/migrations/*.sql`, применяется вручную через Supabase → SQL Editor, по порядку номеров
+- Таблицы: `regions`, `categories`, `profiles`, `listings`, `listing_photos`, `favorites`; фото — bucket `listing-photos` (папка = id пользователя)
+- Клиенты: `@/lib/supabase/server` (серверные компоненты) и `@/lib/supabase/client` (браузер)
+- VIP, просмотры и «поднять» пользователь менять не может (права на колонки) — только сервер
+
 ## Бренд
 - Логотип: надпись «jangak.kg», точка над «j» — грецкий орех (Арсланбоб). Шрифт Inter ExtraBold
 - Цвета (Tailwind): `brand` #1E7A4C (зелёный), `walnut` #4A2E1B, `kernel` #F2A33A (золотой), `cream` #FBF6EE
