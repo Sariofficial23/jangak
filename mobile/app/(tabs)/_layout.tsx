@@ -1,9 +1,9 @@
-import { Tabs, router } from "expo-router";
-import { Pressable, Text } from "react-native";
+import { Tabs } from "expo-router";
+import { Text } from "react-native";
 import { colors } from "@/lib/theme";
 
 function tabIcon(symbol: string) {
-  return ({ color }: { color: string }) => <Text style={{ fontSize: 20, color }}>{symbol}</Text>;
+  return ({ color }: { color: string }) => <Text style={{ fontSize: 22, color }}>{symbol}</Text>;
 }
 
 export default function TabsLayout() {
@@ -12,6 +12,7 @@ export default function TabsLayout() {
       screenOptions={{
         tabBarActiveTintColor: colors.brand,
         tabBarInactiveTintColor: colors.muted,
+        tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
         headerStyle: { backgroundColor: colors.brand },
         headerTintColor: "#fff",
         headerTitleStyle: { fontWeight: "800" },
@@ -19,24 +20,23 @@ export default function TabsLayout() {
     >
       <Tabs.Screen
         name="index"
-        options={{
-          title: "Jangak.kg",
-          tabBarLabel: "Лента",
-          tabBarIcon: tabIcon("🏠"),
-          headerRight: () => (
-            <Pressable onPress={() => router.push("/login")} hitSlop={10} style={{ paddingHorizontal: 16 }}>
-              <Text style={{ color: "#fff", fontSize: 20 }}>👤</Text>
-            </Pressable>
-          ),
-        }}
+        options={{ title: "Jangak.kg", tabBarLabel: "Главная", tabBarIcon: tabIcon("🏠") }}
       />
       <Tabs.Screen
-        name="search"
-        options={{
-          title: "Поиск",
-          tabBarLabel: "Поиск",
-          tabBarIcon: tabIcon("🔍"),
-        }}
+        name="favorites"
+        options={{ title: "Избранное", tabBarLabel: "Избранное", tabBarIcon: tabIcon("♡") }}
+      />
+      <Tabs.Screen
+        name="create"
+        options={{ title: "Новое объявление", tabBarLabel: "Создать", tabBarIcon: tabIcon("➕") }}
+      />
+      <Tabs.Screen
+        name="chat"
+        options={{ title: "Чат", tabBarLabel: "Чат", tabBarIcon: tabIcon("💬") }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{ title: "Профиль", tabBarLabel: "Профиль", tabBarIcon: tabIcon("👤") }}
       />
     </Tabs>
   );

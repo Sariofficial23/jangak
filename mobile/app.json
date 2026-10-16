@@ -19,7 +19,15 @@
         "backgroundColor": "#1E7A4C"
       }
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Разрешите доступ к фото, чтобы прикрепить их к объявлению."
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },

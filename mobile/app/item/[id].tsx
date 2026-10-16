@@ -10,19 +10,22 @@ import {
   Text,
   View,
 } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { photoUrl, supabase } from "@/lib/supabase";
 import { LISTING_FULL_SELECT, priceLabel, type ListingFull } from "@/lib/listings";
 import { formatDate, formatPrice } from "@/lib/format";
+import { useSession } from "@/lib/useSession";
 import { colors } from "@/lib/theme";
 
 const W = Dimensions.get("window").width;
 
 export default function ItemScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { session } = useSession();
   const [item, setItem] = useState<ListingFull | null>(null);
   const [loading, setLoading] = useState(true);
   const [showPhone, setShowPhone] = useState(false);
+  const [fav, setFav] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -35,6 +38,36 @@ export default function ItemScreen() {
       setLoading(false);
     })();
   }, [id]);
+
+  useEffect(() => {
+    if (!session) {
+      setFav(false);
+      return;
+    }
+    supabase
+      .from("favorites")
+      .select("listing_id")
+      .eq("user_id", session.user.id)
+      .eq("listing_id", Number(id))
+      .maybeSingle()
+      .then(({ data }) => setFav(!!data));
+  }, [id, session]);
+
+  async function toggleFav() {
+    if (!session) {
+      router.push("/login");
+      return;
+    }
+    const next = !fav;
+    setFav(next);
+    if (next) {
+      await supabase
+        .from("favorites")
+        .upsert({ user_id: session.user.id, listing_id: Number(id) }, { ignoreDuplicates: true });
+    } else {
+      await supabase.from("favorites").delete().eq("user_id", session.user.id).eq("listing_id", Number(id));
+    }
+  }
 
   if (loading) {
     return (
@@ -72,7 +105,14 @@ export default function ItemScreen() {
       </View>
 
       <View style={styles.block}>
-        <Text style={styles.price}>{price}</Text>
+        <View style={styles.priceRow}>
+          <Text style={styles.price}>{price}</Text>
+          <Pressable onPress={toggleFav} hitSlop={10} style={styles.heart}>
+            <Text style={{ fontSize: 24, color: fav ? colors.danger : colors.muted }}>
+              {fav ? "♥" : "♡"}
+            </Text>
+          </Pressable>
+        </View>
         <Text style={styles.title}>{item.title}</Text>
         {item.negotiable && <Text style={styles.muted}>Торг уместен</Text>}
         <Text style={styles.date}>
@@ -124,6 +164,8 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     gap: 6,
   },
+  priceRow: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  heart: { padding: 4 },
   price: { fontSize: 24, fontWeight: "800", color: colors.text },
   title: { fontSize: 18, fontWeight: "700", color: colors.text },
   date: { fontSize: 13, color: colors.muted, marginTop: 2 },
