@@ -12,11 +12,22 @@ export default function Footer() {
           <Image src="/brand/jangak-logo-white.svg" alt="Jangak.kg" width={140} height={38} />
           <p className="mt-2 text-sm text-kernel">{t("tagline")}</p>
         </div>
-        <nav className="flex gap-6 text-sm">
-          <a href="#" className="hover:text-kernel">{t("help")}</a>
-          <a href="#" className="hover:text-kernel">{t("rules")}</a>
-          <a href="#" className="hover:text-kernel">{t("privacy")}</a>
-        </nav>
+        <div className="flex flex-col gap-4 sm:items-end">
+          <span
+            className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-sm font-bold"
+            title={t("appSoon")}
+          >
+            📱 {t("app")}
+            <span className="rounded-md bg-kernel px-2 py-0.5 text-xs font-extrabold text-walnut">
+              {t("soon")}
+            </span>
+          </span>
+          <nav className="flex gap-6 text-sm">
+            <a href="#" className="hover:text-kernel">{t("help")}</a>
+            <a href="#" className="hover:text-kernel">{t("rules")}</a>
+            <a href="#" className="hover:text-kernel">{t("privacy")}</a>
+          </nav>
+        </div>
       </div>
       <div className="border-t border-white/10 py-4 text-center text-xs text-cream/60">
         © {year} Jangak.kg. {t("rights")}

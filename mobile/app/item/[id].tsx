@@ -1,0 +1,151 @@
+import { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  Linking,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { useLocalSearchParams } from "expo-router";
+import { photoUrl, supabase } from "@/lib/supabase";
+import { LISTING_FULL_SELECT, priceLabel, type ListingFull } from "@/lib/listings";
+import { formatDate, formatPrice } from "@/lib/format";
+import { colors } from "@/lib/theme";
+
+const W = Dimensions.get("window").width;
+
+export default function ItemScreen() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const [item, setItem] = useState<ListingFull | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [showPhone, setShowPhone] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("listings")
+        .select(LISTING_FULL_SELECT)
+        .eq("id", Number(id))
+        .maybeSingle();
+      setItem((data as unknown as ListingFull) ?? null);
+      setLoading(false);
+    })();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator color={colors.brand} />
+      </View>
+    );
+  }
+
+  if (!item) {
+    return (
+      <View style={styles.center}>
+        <Text style={styles.muted}>Объявление не найдено</Text>
+      </View>
+    );
+  }
+
+  const photos = [...item.photos].sort((a, b) => a.sort - b.sort);
+  const price = priceLabel(item) ?? formatPrice(item.price, item.currency);
+
+  return (
+    <ScrollView style={{ backgroundColor: colors.bg }} contentContainerStyle={{ paddingBottom: 32 }}>
+      <View style={styles.gallery}>
+        {photos.length ? (
+          <ScrollView horizontal pagingEnabled showsHorizontalScrollIndicator={false}>
+            {photos.map((p) => (
+              <Image key={p.path} source={{ uri: photoUrl(p.path) }} style={styles.photo} resizeMode="cover" />
+            ))}
+          </ScrollView>
+        ) : (
+          <View style={[styles.photo, styles.noPhoto]}>
+            <Text style={styles.muted}>Нет фото</Text>
+          </View>
+        )}
+      </View>
+
+      <View style={styles.block}>
+        <Text style={styles.price}>{price}</Text>
+        <Text style={styles.title}>{item.title}</Text>
+        {item.negotiable && <Text style={styles.muted}>Торг уместен</Text>}
+        <Text style={styles.date}>
+          {formatDate(item.created_at)} · {item.region?.name_ru ?? ""}
+        </Text>
+      </View>
+
+      <View style={styles.tags}>
+        <Text style={styles.tag}>{item.seller_type === "business" ? "Бизнес" : "Частное лицо"}</Text>
+        {item.condition && <Text style={styles.tag}>{item.condition === "new" ? "Новое" : "Б/у"}</Text>}
+        {item.category && <Text style={styles.tag}>{item.category.name_ru}</Text>}
+      </View>
+
+      <View style={styles.block}>
+        <Text style={styles.h2}>Описание</Text>
+        <Text style={styles.body}>{item.description}</Text>
+      </View>
+
+      {item.contact_phone ? (
+        <View style={styles.block}>
+          <Pressable
+            style={styles.phoneBtn}
+            onPress={() => {
+              if (showPhone) Linking.openURL(`tel:${item.contact_phone}`);
+              else setShowPhone(true);
+            }}
+          >
+            <Text style={styles.phoneBtnText}>
+              {showPhone ? `📞 ${item.contact_phone}` : "Показать телефон"}
+            </Text>
+          </Pressable>
+          {item.contact_name ? <Text style={styles.seller}>Продавец: {item.contact_name}</Text> : null}
+        </View>
+      ) : null}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  center: { flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: colors.bg },
+  muted: { color: colors.muted },
+  gallery: { backgroundColor: "#111" },
+  photo: { width: W, height: W * 0.8 },
+  noPhoto: { alignItems: "center", justifyContent: "center", backgroundColor: "#222" },
+  block: {
+    backgroundColor: colors.card,
+    marginTop: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    gap: 6,
+  },
+  price: { fontSize: 24, fontWeight: "800", color: colors.text },
+  title: { fontSize: 18, fontWeight: "700", color: colors.text },
+  date: { fontSize: 13, color: colors.muted, marginTop: 2 },
+  tags: { flexDirection: "row", flexWrap: "wrap", gap: 8, paddingHorizontal: 16, paddingVertical: 12 },
+  tag: {
+    backgroundColor: colors.card,
+    color: colors.text,
+    fontSize: 13,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 8,
+    overflow: "hidden",
+  },
+  h2: { fontSize: 16, fontWeight: "800", color: colors.text, marginBottom: 2 },
+  body: { fontSize: 15, lineHeight: 22, color: colors.text },
+  phoneBtn: {
+    backgroundColor: colors.brand,
+    height: 50,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  phoneBtnText: { color: "#fff", fontSize: 16, fontWeight: "800" },
+  seller: { color: colors.muted, marginTop: 8 },
+});

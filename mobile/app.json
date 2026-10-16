@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "Jangak.kg",
+    "slug": "jangak",
+    "scheme": "jangak",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#1E7A4C",
+      "resizeMode": "contain"
+    },
+    "android": {
+      "package": "kg.jangak.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#1E7A4C"
+      }
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

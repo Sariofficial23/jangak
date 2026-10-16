@@ -62,7 +62,10 @@
     "help": "Yordam",
     "rules": "Qoidalar",
     "privacy": "Maxfiylik",
-    "rights": "Barcha huquqlar himoyalangan."
+    "rights": "Barcha huquqlar himoyalangan.",
+    "app": "Ilovani yuklab olish",
+    "soon": "Tez orada",
+    "appSoon": "Android ilovasi tez orada Google Play'da"
   },
   "listing": {
     "negotiable": "Kelishiladi",

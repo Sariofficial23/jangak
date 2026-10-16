@@ -1,0 +1,19 @@
+# Expo / React Native
+node_modules/
+.expo/
+dist/
+web-build/
+*.log
+
+# Native
+android/
+ios/
+
+# Env
+.env
+.env.local
+
+# Misc
+.DS_Store
+npm-debug.*
+expo-env.d.ts
