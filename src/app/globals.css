@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+/* Фирменные цвета Jangak (см. CLAUDE.md) */
+@theme {
+  --color-brand: #1e7a4c;
+  --color-brand-dark: #165c39;
+  --color-walnut: #4a2e1b;
+  --color-kernel: #f2a33a;
+  --color-cream: #fbf6ee;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+body {
+  background: #f4f1ec;
+  color: #1b1b1b;
+}

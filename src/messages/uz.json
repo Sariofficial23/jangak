@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "title": "Jangak.kg — Qirg'izistondagi bepul e'lonlar",
+    "description": "Butun Qirg'iziston bo'ylab yangi va ishlatilgan buyumlar, ko'chmas mulk, transport, xizmatlar va ishni soting va sotib oling."
+  },
+  "header": {
+    "chat": "Chat",
+    "favorites": "Saralanganlar",
+    "profile": "Profil",
+    "post": "E'lon berish",
+    "language": "Til"
+  },
+  "search": {
+    "placeholder": "Nima qidiryapsiz?",
+    "location": "Butun Qirg'iziston",
+    "submit": "Qidirish"
+  },
+  "home": {
+    "sections": "Jangak bo'limlari",
+    "vip": "VIP e'lonlar",
+    "empty": "Tez orada bu yerda birinchi e'lonlar paydo bo'ladi. Birinchi sotuvchi bo'ling!"
+  },
+  "categories": {
+    "kids": "Bolalar dunyosi",
+    "realty": "Ko'chmas mulk",
+    "transport": "Transport",
+    "jobs": "Ish",
+    "animals": "Hayvonlar",
+    "home": "Uy va bog'",
+    "electronics": "Elektronika",
+    "services": "Biznes va xizmatlar",
+    "fashion": "Moda va stil",
+    "hobby": "Xobbi, dam olish va sport",
+    "free": "Tekinga beraman",
+    "exchange": "Ayirboshlash"
+  },
+  "footer": {
+    "tagline": "Sot · Ol · Top",
+    "help": "Yordam",
+    "rules": "Qoidalar",
+    "privacy": "Maxfiylik",
+    "rights": "Barcha huquqlar himoyalangan."
+  }
+}
