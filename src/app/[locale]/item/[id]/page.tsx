@@ -7,6 +7,7 @@ import { formatDate, formatPrice, localName } from "@/lib/format";
 import type { NamedRow } from "@/lib/listings";
 import ShowPhone from "@/components/ShowPhone";
 import FavoriteButton from "@/components/FavoriteButton";
+import MessageSellerButton from "@/components/MessageSellerButton";
 
 type Listing = {
   id: number;
@@ -155,14 +156,9 @@ export default async function ItemPage({
           <div className="text-2xl font-extrabold">{price}</div>
           {item.negotiable && <div className="text-sm text-neutral-500">{t("negotiable")}</div>}
           <div className="mt-5 flex flex-col gap-3">
-            <button
-              type="button"
-              disabled
-              title="Скоро"
-              className="h-12 rounded-xl bg-brand font-extrabold text-white opacity-60"
-            >
-              💬 {t("message")}
-            </button>
+            {!isOwner && (
+              <MessageSellerButton listingId={item.id} loggedIn={!!user} label={t("message")} />
+            )}
             {item.contact_phone && <ShowPhone phone={item.contact_phone} label={t("showPhone")} />}
             <FavoriteButton listingId={item.id} initial={!!fav} loggedIn={!!user} />
           </div>

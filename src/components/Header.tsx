@@ -22,9 +22,11 @@ export default async function Header() {
           />
         </Link>
         <nav className="ml-auto flex items-center gap-4 text-sm font-semibold sm:gap-6">
-          <a href="#" className="hidden hover:opacity-80 md:inline">
-            💬 {t("chat")}
-          </a>
+          {user && (
+            <Link href="/chat" className="hover:opacity-80">
+              💬 <span className="hidden sm:inline">{t("chat")}</span>
+            </Link>
+          )}
           <LocaleSwitcher label={t("language")} />
           <Link href="/favorites" className="hidden hover:opacity-80 sm:inline" aria-label={t("favorites")}>
             ♡

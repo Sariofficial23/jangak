@@ -22,3 +22,18 @@ export function formatDate(iso: string, locale: string) {
     year: "numeric",
   }).format(new Date(iso));
 }
+
+// Короткая метка времени для чата: сегодня — часы:минуты, иначе — дата
+export function formatChatTime(iso: string, locale: string) {
+  const d = new Date(iso);
+  const loc = locale === "uz" ? "uz-Latn" : locale;
+  const today = new Date();
+  const sameDay =
+    d.getFullYear() === today.getFullYear() &&
+    d.getMonth() === today.getMonth() &&
+    d.getDate() === today.getDate();
+  if (sameDay) {
+    return new Intl.DateTimeFormat(loc, { hour: "2-digit", minute: "2-digit" }).format(d);
+  }
+  return new Intl.DateTimeFormat(loc, { day: "numeric", month: "short" }).format(d);
+}
