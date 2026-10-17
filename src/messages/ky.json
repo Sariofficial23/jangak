@@ -86,7 +86,8 @@
     "statusRejected": "Жарнама модератор тарабынан четке кагылды.",
     "statusInactive": "Жарнама жарыялоодон алынды.",
     "whatsapp": "WhatsApp'та жазуу",
-    "whatsappText": "Саламатсызбы! Jangak.kg'дагы «{title}» жарнамаңыз кызыктырды"
+    "whatsappText": "Саламатсызбы! Jangak.kg'дагы «{title}» жарнамаңыз кызыктырды",
+    "edit": "Түзөтүү"
   },
   "auth": {
     "loginTitle": "Кирүү",
@@ -138,7 +139,12 @@
     "errRegion": "Жайгашкан жерин тандаңыз",
     "errPrice": "Баасын жазыңыз",
     "errPhone": "Телефонду жазыңыз",
-    "errSave": "Сакталган жок: {message}"
+    "errSave": "Сакталган жок: {message}",
+    "editTitle": "Жарнаманы түзөтүү",
+    "saveEdit": "Сактоо",
+    "saving": "Сакталууда…",
+    "editNotAllowed": "Бул жарнаманы түзөтүүгө болбойт",
+    "backToMy": "Менин жарнамаларыма"
   },
   "my": {
     "title": "Менин жарыяларым",

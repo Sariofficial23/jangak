@@ -86,7 +86,8 @@
     "statusRejected": "E'lon moderator tomonidan rad etildi.",
     "statusInactive": "E'lon e'londan olingan.",
     "whatsapp": "WhatsApp'da yozish",
-    "whatsappText": "Assalomu alaykum! Jangak.kg'dagi «{title}» e'loningiz qiziqtirdi"
+    "whatsappText": "Assalomu alaykum! Jangak.kg'dagi «{title}» e'loningiz qiziqtirdi",
+    "edit": "Tahrirlash"
   },
   "auth": {
     "loginTitle": "Kirish",
@@ -138,7 +139,12 @@
     "errRegion": "Joylashuvni tanlang",
     "errPrice": "Narxni kiriting",
     "errPhone": "Telefonni kiriting",
-    "errSave": "Saqlanmadi: {message}"
+    "errSave": "Saqlanmadi: {message}",
+    "editTitle": "E'lonni tahrirlash",
+    "saveEdit": "Saqlash",
+    "saving": "Saqlanmoqda…",
+    "editNotAllowed": "Bu e'lonni tahrirlab bo'lmaydi",
+    "backToMy": "Mening e'lonlarimga"
   },
   "my": {
     "title": "Mening e'lonlarim",

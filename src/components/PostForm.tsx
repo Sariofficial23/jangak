@@ -4,11 +4,28 @@ import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { PHOTO_BUCKET } from "@/lib/supabase/config";
+import { PHOTO_BUCKET, photoUrl } from "@/lib/supabase/config";
 import { resizeImage } from "@/lib/resizeImage";
 
 type Option = { id: number; name: string };
 type Deal = "sell" | "exchange" | "free";
+
+export type InitialListing = {
+  id: number;
+  title: string;
+  description: string;
+  deal_type: Deal;
+  price: number | null;
+  currency: string;
+  negotiable: boolean;
+  condition: "new" | "used" | null;
+  seller_type: "private" | "business";
+  contact_name: string | null;
+  contact_phone: string | null;
+  category_id: number;
+  region_id: number;
+  photos: { path: string; sort: number }[];
+};
 
 const MAX_PHOTOS = 8;
 
@@ -18,29 +35,37 @@ export default function PostForm({
   regions,
   defaultName,
   defaultPhone,
+  initial,
 }: {
   userId: string;
   categories: Option[];
   regions: Option[];
   defaultName: string;
   defaultPhone: string;
+  initial?: InitialListing;
 }) {
   const t = useTranslations("post");
   const tl = useTranslations("listing");
   const router = useRouter();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [deal, setDeal] = useState<Deal>("sell");
+  const [title, setTitle] = useState(initial?.title ?? "");
+  const [description, setDescription] = useState(initial?.description ?? "");
+  const [deal, setDeal] = useState<Deal>(initial?.deal_type ?? "sell");
+  // Уже загруженные фото (при редактировании) и новые из файлов
+  const [existing, setExisting] = useState(
+    initial ? [...initial.photos].sort((a, b) => a.sort - b.sort) : [],
+  );
   const [photos, setPhotos] = useState<{ file: File; url: string }[]>([]);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+
+  const total = existing.length + photos.length;
 
   function addPhotos(files: FileList | null) {
     if (!files) return;
     const added = Array.from(files)
       .filter((f) => f.type.startsWith("image/"))
-      .slice(0, MAX_PHOTOS - photos.length)
+      .slice(0, MAX_PHOTOS - total)
       .map((file) => ({ file, url: URL.createObjectURL(file) }));
     setPhotos([...photos, ...added]);
   }
@@ -48,6 +73,10 @@ export default function PostForm({
   function removePhoto(i: number) {
     URL.revokeObjectURL(photos[i].url);
     setPhotos(photos.filter((_, j) => j !== i));
+  }
+
+  function removeExisting(i: number) {
+    setExisting(existing.filter((_, j) => j !== i));
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -72,51 +101,87 @@ export default function PostForm({
     setBusy(true);
     setError("");
     const supabase = createClient();
+
+    const fields = {
+      category_id: categoryId,
+      region_id: regionId,
+      title: title.trim(),
+      description: description.trim(),
+      deal_type: deal,
+      price: deal === "sell" ? Number(priceRaw) : null,
+      currency: String(f.get("currency")),
+      negotiable: deal === "sell" && f.get("negotiable") === "on",
+      condition: (f.get("condition") as string) || null,
+      seller_type: String(f.get("seller_type")),
+      contact_name: String(f.get("contact_name")).trim(),
+      contact_phone: phone,
+    };
+
     try {
-      const { data: listing, error: insertError } = await supabase
-        .from("listings")
-        .insert({
-          user_id: userId,
-          category_id: categoryId,
-          region_id: regionId,
-          title: title.trim(),
-          description: description.trim(),
-          deal_type: deal,
-          price: deal === "sell" ? Number(priceRaw) : null,
-          currency: String(f.get("currency")),
-          negotiable: deal === "sell" && f.get("negotiable") === "on",
-          condition: (f.get("condition") as string) || null,
-          seller_type: String(f.get("seller_type")),
-          contact_name: String(f.get("contact_name")).trim(),
-          contact_phone: phone,
-        })
-        .select("id")
-        .single();
-      if (insertError) throw insertError;
-
-      // Фото: <id пользователя>/<id объявления>/<номер>.jpg
-      const rows = [];
-      for (const [i, p] of photos.entries()) {
-        const path = `${userId}/${listing.id}/${i}-${Date.now()}.jpg`;
-        const blob = await resizeImage(p.file);
-        const { error: upErr } = await supabase.storage
-          .from(PHOTO_BUCKET)
-          .upload(path, blob, { contentType: "image/jpeg" });
-        if (upErr) throw upErr;
-        rows.push({ listing_id: listing.id, path, sort: i });
-      }
-      if (rows.length) {
-        const { error: photoErr } = await supabase.from("listing_photos").insert(rows);
-        if (photoErr) throw photoErr;
-      }
-
-      router.push(`/item/${listing.id}`);
+      const listingId = initial ? await saveEdit(supabase, fields) : await saveNew(supabase, fields);
+      router.push(`/item/${listingId}`);
       router.refresh();
     } catch (err) {
       fail(t("errSave", { message: err instanceof Error ? err.message : String(err) }));
-    } finally {
       setBusy(false);
     }
+  }
+
+  async function saveNew(supabase: ReturnType<typeof createClient>, fields: Record<string, unknown>) {
+    const { data: listing, error: insertError } = await supabase
+      .from("listings")
+      .insert({ user_id: userId, ...fields })
+      .select("id")
+      .single();
+    if (insertError) throw insertError;
+
+    const rows = [];
+    for (const [i, p] of photos.entries()) {
+      const path = `${userId}/${listing.id}/${i}-${Date.now()}.jpg`;
+      const blob = await resizeImage(p.file);
+      const { error: upErr } = await supabase.storage
+        .from(PHOTO_BUCKET)
+        .upload(path, blob, { contentType: "image/jpeg" });
+      if (upErr) throw upErr;
+      rows.push({ listing_id: listing.id, path, sort: i });
+    }
+    if (rows.length) {
+      const { error: photoErr } = await supabase.from("listing_photos").insert(rows);
+      if (photoErr) throw photoErr;
+    }
+    return listing.id as number;
+  }
+
+  async function saveEdit(supabase: ReturnType<typeof createClient>, fields: Record<string, unknown>) {
+    const id = initial!.id;
+    const { error: upErr } = await supabase.from("listings").update(fields).eq("id", id);
+    if (upErr) throw upErr;
+
+    // Удалить снятые фото
+    const kept = existing.map((e) => e.path);
+    const removed = initial!.photos.filter((p) => !kept.includes(p.path)).map((p) => p.path);
+    if (removed.length) {
+      await supabase.storage.from(PHOTO_BUCKET).remove(removed);
+      await supabase.from("listing_photos").delete().eq("listing_id", id).in("path", removed);
+    }
+
+    // Загрузить новые фото
+    const sortBase = existing.reduce((m, e) => Math.max(m, e.sort), -1) + 1;
+    const rows = [];
+    for (const [i, p] of photos.entries()) {
+      const path = `${userId}/${id}/${Date.now()}-${i}.jpg`;
+      const blob = await resizeImage(p.file);
+      const { error: upPhotoErr } = await supabase.storage
+        .from(PHOTO_BUCKET)
+        .upload(path, blob, { contentType: "image/jpeg" });
+      if (upPhotoErr) throw upPhotoErr;
+      rows.push({ listing_id: id, path, sort: sortBase + i });
+    }
+    if (rows.length) {
+      const { error: photoErr } = await supabase.from("listing_photos").insert(rows);
+      if (photoErr) throw photoErr;
+    }
+    return id;
   }
 
   const card = "rounded-2xl bg-white p-5 shadow-sm sm:p-6";
@@ -148,7 +213,7 @@ export default function PostForm({
           </label>
           <label className={label}>
             {t("category")} *
-            <select name="category" defaultValue="" className={input}>
+            <select name="category" defaultValue={initial ? String(initial.category_id) : ""} className={input}>
               <option value="" disabled>{t("choose")}</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>{c.name}</option>
@@ -162,6 +227,20 @@ export default function PostForm({
         <h2 className="mb-1 text-lg font-extrabold">{t("photos")}</h2>
         <p className={`${hint} mb-4`}>{t("photosHint")}</p>
         <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+          {existing.map((p, i) => (
+            <div key={p.path} className="relative aspect-square overflow-hidden rounded-xl bg-neutral-100">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={photoUrl(p.path)} alt="" className="h-full w-full object-cover" />
+              <button
+                type="button"
+                onClick={() => removeExisting(i)}
+                className="absolute right-1 top-1 h-7 w-7 rounded-full bg-black/60 text-white"
+                aria-label="✕"
+              >
+                ✕
+              </button>
+            </div>
+          ))}
           {photos.map((p, i) => (
             <div key={p.url} className="relative aspect-square overflow-hidden rounded-xl bg-neutral-100">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -176,7 +255,7 @@ export default function PostForm({
               </button>
             </div>
           ))}
-          {photos.length < MAX_PHOTOS && (
+          {total < MAX_PHOTOS && (
             <label className="flex aspect-square cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-brand/40 bg-cream text-center text-sm font-bold text-brand hover:bg-brand/5">
               <span className="text-2xl">📷</span>
               {t("addPhoto")}
@@ -225,17 +304,23 @@ export default function PostForm({
           <div className="flex flex-wrap items-end gap-3">
             <label className={`${label} flex-1`}>
               {t("price")} *
-              <input name="price" inputMode="numeric" pattern="[0-9 ]*" className={input} />
+              <input
+                name="price"
+                inputMode="numeric"
+                pattern="[0-9 ]*"
+                defaultValue={initial?.price ?? ""}
+                className={input}
+              />
             </label>
             <label className={label}>
               {t("currency")}
-              <select name="currency" defaultValue="KGS" className={input}>
+              <select name="currency" defaultValue={initial?.currency ?? "KGS"} className={input}>
                 <option value="KGS">сом</option>
                 <option value="USD">$</option>
               </select>
             </label>
             <label className="flex h-12 items-center gap-2 text-sm font-semibold">
-              <input name="negotiable" type="checkbox" className="h-5 w-5 accent-brand" />
+              <input name="negotiable" type="checkbox" defaultChecked={initial?.negotiable} className="h-5 w-5 accent-brand" />
               {t("negotiable")}
             </label>
           </div>
@@ -248,7 +333,7 @@ export default function PostForm({
         <div className="grid gap-4 sm:grid-cols-2">
           <label className={label}>
             {t("condition")}
-            <select name="condition" defaultValue="" className={input}>
+            <select name="condition" defaultValue={initial?.condition ?? ""} className={input}>
               <option value="">—</option>
               <option value="new">{tl("new")}</option>
               <option value="used">{tl("used")}</option>
@@ -256,14 +341,14 @@ export default function PostForm({
           </label>
           <label className={label}>
             {t("sellerType")}
-            <select name="seller_type" defaultValue="private" className={input}>
+            <select name="seller_type" defaultValue={initial?.seller_type ?? "private"} className={input}>
               <option value="private">{tl("private")}</option>
               <option value="business">{tl("business")}</option>
             </select>
           </label>
           <label className={`${label} sm:col-span-2`}>
             {t("region")} *
-            <select name="region" defaultValue="" className={input}>
+            <select name="region" defaultValue={initial ? String(initial.region_id) : ""} className={input}>
               <option value="" disabled>{t("choose")}</option>
               {regions.map((r) => (
                 <option key={r.id} value={r.id}>{r.name}</option>
@@ -278,14 +363,14 @@ export default function PostForm({
         <div className="grid gap-4 sm:grid-cols-2">
           <label className={label}>
             {t("contactName")}
-            <input name="contact_name" defaultValue={defaultName} className={input} />
+            <input name="contact_name" defaultValue={initial?.contact_name ?? defaultName} className={input} />
           </label>
           <label className={label}>
             {t("phone")} *
             <input
               name="phone"
               type="tel"
-              defaultValue={defaultPhone}
+              defaultValue={initial?.contact_phone ?? defaultPhone}
               placeholder={t("phonePlaceholder")}
               className={input}
             />
@@ -297,7 +382,9 @@ export default function PostForm({
         disabled={busy}
         className="h-14 rounded-xl bg-brand text-lg font-extrabold text-white transition hover:bg-brand-dark disabled:opacity-60 sm:self-end sm:px-12"
       >
-        {busy ? t("publishing") : t("publish")}
+        {busy
+          ? t(initial ? "saving" : "publishing")
+          : t(initial ? "saveEdit" : "publish")}
       </button>
     </form>
   );
