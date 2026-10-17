@@ -50,6 +50,10 @@ export default async function AdminPage({
     .from("reports")
     .select("id", { count: "exact", head: true })
     .eq("status", "open");
+  const { count: ordersCount } = await supabase
+    .from("service_orders")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "pending");
   const countByTab = Object.fromEntries(TABS.map((x, i) => [x, counts[i].count ?? 0])) as Record<
     (typeof TABS)[number],
     number
@@ -68,12 +72,20 @@ export default async function AdminPage({
     <div className="mx-auto max-w-5xl px-4 py-6 sm:py-8">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-extrabold text-walnut sm:text-3xl">{t("admin.title")}</h1>
-        <Link
-          href="/admin/reports"
-          className="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-700 transition hover:bg-red-100"
-        >
-          ⚑ {t("report.adminLink")} ({reportsCount ?? 0})
-        </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href="/admin/orders"
+            className="rounded-xl bg-kernel/20 px-3 py-2 text-sm font-bold text-walnut transition hover:bg-kernel/30"
+          >
+            🚀 {t("promote.adminLink")} ({ordersCount ?? 0})
+          </Link>
+          <Link
+            href="/admin/reports"
+            className="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-700 transition hover:bg-red-100"
+          >
+            ⚑ {t("report.adminLink")} ({reportsCount ?? 0})
+          </Link>
+        </div>
       </div>
 
       <nav className="mb-5 flex gap-1 overflow-x-auto border-b border-neutral-200">
