@@ -24,6 +24,14 @@
 - Клиенты: `@/lib/supabase/server` (серверные компоненты) и `@/lib/supabase/client` (браузер)
 - VIP, просмотры и «поднять» пользователь менять не может (права на колонки) — только сервер
 
+## Приложение для Android (APK)
+- Пока это оболочка Capacitor вокруг сайта: приложение открывает `https://jangak.vercel.app`, поэтому обновления сайта видны в приложении сразу, пересобирать APK ради них не нужно. Адрес задаётся в `capacitor.config.ts` (или `CAP_SERVER_URL`)
+- `android/` — проект Android (коммитим), `mobile/www/` — страница «нет соединения» (`offline.html`), `appId` — `kg.jangak.app`
+- Из облачной сессии APK собрать нельзя (нет Android SDK, `dl.google.com` закрыт). Собирает GitHub Actions: `.github/workflows/android-apk.yml` → Actions → запуск → Artifacts → `jangak-apk` (debug-подпись, ставится на телефон вручную)
+- Иконки и заставка сгенерированы из `public/brand/jangak-app-icon-square-1024.png`
+- Главная в стиле «витрина с фото»: плитки категорий с фото из `public/categories/<key>.jpg` (`src/lib/categories.ts`); для разделов без фото (hobby, free, exchange) пока иконка
+- Позже: подпись release-ключом и Google Play; нативное приложение на Expo (этап 5)
+
 ## Бренд
 - Логотип: надпись «jangak.kg», точка над «j» — грецкий орех (Арсланбоб). Шрифт Inter ExtraBold
 - Цвета (Tailwind): `brand` #1E7A4C (зелёный), `walnut` #4A2E1B, `kernel` #F2A33A (золотой), `cream` #FBF6EE

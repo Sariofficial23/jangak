@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import SearchBar from "@/components/SearchBar";
 import ListingCard from "@/components/ListingCard";
@@ -40,22 +41,40 @@ export default async function HomePage({
         <h1 className="mb-8 text-center text-2xl font-extrabold text-walnut sm:text-3xl">
           {t("home.sections")}
         </h1>
-        <ul className="grid grid-cols-3 gap-x-3 gap-y-6 sm:grid-cols-4 lg:grid-cols-6">
+        <ul className="grid auto-rows-[118px] grid-cols-3 gap-2 sm:auto-rows-[132px] sm:grid-cols-4 sm:gap-3 lg:grid-cols-6">
           {categories.map((c) => (
-            <li key={c.key}>
+            <li key={c.key} className={c.wide ? "col-span-2 sm:col-span-1" : ""}>
               <Link
                 href={{ pathname: "/search", query: { cat: c.key } }}
-                className="group flex flex-col items-center gap-2 text-center"
+                className="group relative block h-full overflow-hidden rounded-2xl p-2.5 text-[12px] font-bold leading-tight text-[#1b1b1b] transition hover:shadow-md active:scale-[0.98] sm:p-3 sm:text-sm"
+                style={{ backgroundColor: c.bg }}
               >
                 <span
-                  className="flex h-16 w-16 items-center justify-center rounded-full ring-1 ring-walnut/5 transition group-hover:-translate-y-1 group-hover:shadow-md sm:h-20 sm:w-20"
-                  style={{ backgroundColor: c.bg }}
+                  className={`block break-words hyphens-auto group-hover:text-brand ${
+                    c.wide ? "text-[15px] sm:text-sm" : ""
+                  }`}
                 >
-                  <CategoryIcon name={c.key} className="h-10 w-10 sm:h-12 sm:w-12" />
-                </span>
-                <span className="text-sm font-semibold leading-tight group-hover:text-brand">
                   {t(`categories.${c.key}`)}
                 </span>
+                {c.photo ? (
+                  <Image
+                    src={`/categories/${c.key}.jpg`}
+                    alt=""
+                    width={288}
+                    height={171}
+                    sizes="(min-width: 640px) 96px, 150px"
+                    className={`absolute bottom-1.5 right-1.5 rounded-xl object-cover ${
+                      c.wide
+                        ? "h-[72px] w-[140px] sm:h-[60px] sm:w-[76px]"
+                        : "h-[60px] w-[76px]"
+                    }`}
+                  />
+                ) : (
+                  <CategoryIcon
+                    name={c.key}
+                    className="absolute bottom-2 right-2 h-14 w-14"
+                  />
+                )}
               </Link>
             </li>
           ))}

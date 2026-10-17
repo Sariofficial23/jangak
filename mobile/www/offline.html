@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jangak.kg</title>
+<style>
+  html, body { height: 100%; margin: 0; }
+  body {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 14px; padding: 24px; box-sizing: border-box; text-align: center;
+    background: #1e7a4c; color: #fff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  img { width: 168px; height: auto; }
+  h1 { margin: 8px 0 0; font-size: 20px; font-weight: 800; }
+  p { margin: 0; max-width: 300px; font-size: 15px; line-height: 1.4; opacity: .92; }
+  button {
+    margin-top: 10px; min-height: 48px; padding: 0 28px; border: 0; border-radius: 12px;
+    background: #f2a33a; color: #4a2e1b; font: inherit; font-size: 16px; font-weight: 700;
+  }
+</style>
+</head>
+<body>
+  <img src="logo.svg" alt="jangak.kg">
+  <h1>Нет соединения</h1>
+  <p>Проверьте интернет и попробуйте ещё раз.<br>Интернет жок. Кайра аракет кылыңыз.<br>Internet yo‘q. Qayta urinib ko‘ring.</p>
+  <button type="button" onclick="history.length > 1 ? history.back() : location.reload()">↻</button>
+</body>
+</html>
