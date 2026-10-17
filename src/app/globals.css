@@ -14,3 +14,40 @@ body {
   background: #f4f1ec;
   color: #1b1b1b;
 }
+
+/* Плавное появление страницы при каждом переходе */
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.page-in {
+  animation: pageIn 0.28s ease-out both;
+}
+
+/* Мерцающая заглушка (скелетон) на время загрузки */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+.skeleton {
+  background: linear-gradient(90deg, #e7e2da 25%, #f1ede7 37%, #e7e2da 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-in,
+  .skeleton {
+    animation: none;
+  }
+}
