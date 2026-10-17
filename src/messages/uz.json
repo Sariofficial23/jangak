@@ -83,7 +83,9 @@
     "back": "Bosh sahifaga",
     "statusPending": "E'lon moderatsiyada — tekshiruvdan so'ng qidiruvda ko'rinadi.",
     "statusRejected": "E'lon moderator tomonidan rad etildi.",
-    "statusInactive": "E'lon e'londan olingan."
+    "statusInactive": "E'lon e'londan olingan.",
+    "whatsapp": "WhatsApp'da yozish",
+    "whatsappText": "Assalomu alaykum! Jangak.kg'dagi «{title}» e'loningiz qiziqtirdi"
   },
   "auth": {
     "loginTitle": "Kirish",
