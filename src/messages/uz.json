@@ -12,7 +12,8 @@
     "login": "Kirish",
     "logout": "Chiqish",
     "myListings": "Mening e'lonlarim",
-    "admin": "Moderatsiya"
+    "admin": "Moderatsiya",
+    "savedSearches": "Saqlangan qidiruvlar"
   },
   "search": {
     "placeholder": "Nima qidiryapsiz?",
@@ -229,5 +230,13 @@
     "loginToReview": "Sharh qoldirish uchun kiring",
     "empty": "Hozircha sharhlar yo'q",
     "anonymous": "Foydalanuvchi"
+  },
+  "saved": {
+    "save": "Qidiruvni saqlash",
+    "done": "Saqlandi",
+    "title": "Saqlangan qidiruvlar",
+    "empty": "Saqlangan qidiruvlar yo'q",
+    "all": "Barcha e'lonlar",
+    "delete": "O'chirish"
   }
 }
