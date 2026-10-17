@@ -35,7 +35,7 @@ async function getListing(id: string) {
   const { data } = await supabase
     .from("listings")
     .select(
-      "id, user_id, status, title, description, price, currency, deal_type, negotiable, condition, seller_type, contact_name, contact_phone, created_at, category:categories(name_ru, name_ky, name_uz), region:regions(name_ru, name_ky, name_uz), seller:profiles(name, created_at), photos:listing_photos(path, sort)",
+      "id, user_id, status, title, description, price, currency, deal_type, negotiable, condition, seller_type, contact_name, contact_phone, created_at, category:categories(name_ru, name_ky, name_uz), region:regions(name_ru, name_ky, name_uz), seller:profiles!listings_user_id_fkey(name, created_at), photos:listing_photos(path, sort)",
     )
     .eq("id", Number(id))
     .maybeSingle();
