@@ -76,8 +76,16 @@ export default async function MyListingsPage({
                   <div className="text-xs text-neutral-500">
                     {formatDate(l.created_at, locale)} · {t("my.views", { count: l.views })}
                   </div>
-                  <div className="mt-auto pt-1">
+                  <div className="mt-auto flex flex-wrap items-center gap-2 pt-1">
                     <MyListingActions id={l.id} status={l.status} />
+                    {l.status === "active" && (
+                      <Link
+                        href={`/promote/${l.id}`}
+                        className="rounded-lg bg-kernel/20 px-3 py-1 text-sm font-bold text-walnut transition hover:bg-kernel/30"
+                      >
+                        🚀 {t("promote.cta")}
+                      </Link>
+                    )}
                   </div>
                 </div>
               </li>

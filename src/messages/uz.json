@@ -238,5 +238,40 @@
     "empty": "Saqlangan qidiruvlar yo'q",
     "all": "Barcha e'lonlar",
     "delete": "O'chirish"
+  },
+  "promote": {
+    "cta": "Reklama qilish",
+    "title": "E'lonni reklama qilish",
+    "intro": "Xizmatni tanlang. Tanlagandan so'ng to'lov rekvizitlari chiqadi.",
+    "som": "so'm",
+    "opt": {
+      "bump": {
+        "title": "Ro'yxatda ko'tarish",
+        "desc": "E'lon yana ro'yxat tepasida"
+      },
+      "vip7": {
+        "title": "7 kun VIP",
+        "desc": "Ajratilgan va 7 kun tepada"
+      },
+      "vip30": {
+        "title": "30 kun VIP",
+        "desc": "Ajratilgan va 30 kun tepada"
+      }
+    },
+    "pendingTitle": "Buyurtma yaratildi, to'lov kutilmoqda",
+    "howToPay": "Qanday to'lash kerak",
+    "payStep1": "{amount} ni {phone} raqamiga o'tkazing",
+    "payStep2": "O'tkazma izohida e'lon raqamini ko'rsating",
+    "payStep3": "Moderator to'lovni tasdiqlaydi va xizmat yoqiladi",
+    "pendingNote": "Odatda bir kun ichida tasdiqlaymiz",
+    "notFound": "E'lon topilmadi",
+    "back": "Mening e'lonlarimga",
+    "confirm": "Tasdiqlash",
+    "reject": "Rad etish",
+    "adminTitle": "Xizmat buyurtmalari",
+    "adminLink": "Buyurtmalar",
+    "adminEmpty": "Yangi buyurtmalar yo'q",
+    "buyer": "Xaridor",
+    "listingGone": "E'lon o'chirilgan"
   }
 }
