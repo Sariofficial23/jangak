@@ -216,5 +216,18 @@
     "listingGone": "E'lon o'chirilgan",
     "hideListing": "E'lonni yashirish",
     "dismiss": "Shikoyatni rad etish"
+  },
+  "review": {
+    "sectionTitle": "Sharhlar",
+    "count": "baho",
+    "noRatings": "Baho yo'q",
+    "title": "Sotuvchini baholang",
+    "editTitle": "Sizning sharhingiz",
+    "commentPlaceholder": "Izoh (ixtiyoriy)",
+    "send": "Sharh qoldirish",
+    "update": "Sharhni yangilash",
+    "loginToReview": "Sharh qoldirish uchun kiring",
+    "empty": "Hozircha sharhlar yo'q",
+    "anonymous": "Foydalanuvchi"
   }
 }
