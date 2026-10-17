@@ -47,6 +47,11 @@ export default async function Header() {
           <Link href="/favorites" className="hidden hover:opacity-80 sm:inline" aria-label={t("favorites")}>
             ♡
           </Link>
+          {user && (
+            <Link href="/saved" className="hidden hover:opacity-80 sm:inline" aria-label={t("savedSearches")}>
+              🔖
+            </Link>
+          )}
           {isAdmin && (
             <Link href="/admin" className="hover:opacity-80" aria-label={t("admin")}>
               🛡️ <span className="hidden sm:inline">{t("admin")}</span>

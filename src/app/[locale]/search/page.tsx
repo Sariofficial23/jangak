@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import SearchBar from "@/components/SearchBar";
 import ListingCard from "@/components/ListingCard";
+import SaveSearchButton from "@/components/SaveSearchButton";
 import { getRefs } from "@/lib/refs";
 import { LISTING_CARD_SELECT, type ListingCardData } from "@/lib/listings";
 import { createClient } from "@/lib/supabase/server";
@@ -50,6 +51,21 @@ export default async function SearchPage({
 
   const { data, count } = await query.limit(PAGE_SIZE);
   const listings = (data ?? []) as unknown as ListingCardData[];
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Параметры текущего поиска для кнопки «Сохранить»
+  const savedParams: Record<string, string> = {};
+  if (q) savedParams.q = q;
+  if (category) savedParams.cat = category.slug;
+  if (region) savedParams.region = region.slug;
+  if (min !== null) savedParams.min = String(min);
+  if (max !== null) savedParams.max = String(max);
+  if (cond) savedParams.cond = cond;
+  if (seller) savedParams.seller = seller;
+  if (sort !== "new") savedParams.sort = sort;
 
   const field = "flex flex-col gap-1 text-xs font-semibold text-neutral-600";
   const input = "h-11 rounded-xl border-2 border-neutral-200 bg-white px-3 text-sm font-normal text-neutral-900 outline-none focus:border-brand";
@@ -130,9 +146,12 @@ export default async function SearchPage({
           </div>
         </form>
 
-        <h1 className="mb-4 text-lg font-extrabold text-walnut">
-          {category ? category.name : t("search.results")} · {t("search.found", { count: count ?? 0 })}
-        </h1>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-lg font-extrabold text-walnut">
+            {category ? category.name : t("search.results")} · {t("search.found", { count: count ?? 0 })}
+          </h1>
+          <SaveSearchButton params={savedParams} loggedIn={!!user} />
+        </div>
         {listings.length ? (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {listings.map((item) => (
