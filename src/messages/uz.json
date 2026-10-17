@@ -167,5 +167,15 @@
     "seller": "Sotuvchi",
     "empty": "E'lonlar yo'q",
     "loadError": "E'lonlarni yuklab bo'lmadi"
+  },
+  "seller": {
+    "listings": "Sotuvchining e'lonlari",
+    "joined": "Jangakda {date} dan beri",
+    "private": "Jismoniy shaxs",
+    "business": "Biznes",
+    "anonymous": "Sotuvchi",
+    "noListings": "Sotuvchida hozircha faol e'lon yo'q",
+    "notFound": "Sotuvchi topilmadi",
+    "back": "Bosh sahifaga"
   }
 }
