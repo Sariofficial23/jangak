@@ -51,7 +51,7 @@ export default async function AdminPage({
     number
   >;
 
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("listings")
     .select(
       "id, title, description, price, currency, deal_type, status, contact_name, contact_phone, created_at, category:categories(name_ru, name_ky, name_uz), region:regions(name_ru, name_ky, name_uz), seller:profiles(name), photos:listing_photos(path, sort)",
@@ -80,7 +80,11 @@ export default async function AdminPage({
         ))}
       </nav>
 
-      {items.length ? (
+      {error ? (
+        <div className="rounded-2xl bg-red-50 p-6 text-sm text-red-700">
+          {t("admin.loadError")}: {error.message}
+        </div>
+      ) : items.length ? (
         <ul className="flex flex-col gap-4">
           {items.map((l) => {
             const photos = [...l.photos].sort((a, b) => a.sort - b.sort);

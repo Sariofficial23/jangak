@@ -165,6 +165,7 @@
     "approve": "Tasdiqlash",
     "reject": "Rad etish",
     "seller": "Sotuvchi",
-    "empty": "E'lonlar yo'q"
+    "empty": "E'lonlar yo'q",
+    "loadError": "E'lonlarni yuklab bo'lmadi"
   }
 }
