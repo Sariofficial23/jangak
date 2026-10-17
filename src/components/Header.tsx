@@ -7,7 +7,18 @@ import LogoutButton from "./LogoutButton";
 
 export default async function Header() {
   const t = await getTranslations("header");
-  const { user, isAdmin } = await getModerator();
+  const { supabase, user, isAdmin } = await getModerator();
+
+  // Непрочитанные сообщения (RLS отдаёт только переписки этого пользователя)
+  let unread = 0;
+  if (user) {
+    const { count } = await supabase
+      .from("messages")
+      .select("id", { count: "exact", head: true })
+      .neq("sender_id", user.id)
+      .is("read_at", null);
+    unread = count ?? 0;
+  }
 
   return (
     <header className="bg-brand text-white">
@@ -23,8 +34,13 @@ export default async function Header() {
         </Link>
         <nav className="ml-auto flex items-center gap-4 text-sm font-semibold sm:gap-6">
           {user && (
-            <Link href="/chat" className="hover:opacity-80">
+            <Link href="/chat" className="relative hover:opacity-80">
               💬 <span className="hidden sm:inline">{t("chat")}</span>
+              {unread > 0 && (
+                <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-extrabold text-white">
+                  {unread > 99 ? "99+" : unread}
+                </span>
+              )}
             </Link>
           )}
           <LocaleSwitcher label={t("language")} />
