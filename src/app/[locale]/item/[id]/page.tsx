@@ -170,19 +170,25 @@ export default async function ItemPage({
 
         <section className="rounded-2xl bg-white p-5 shadow-sm">
           <h2 className="mb-3 text-xs font-bold uppercase tracking-wide text-neutral-500">{t("seller")}</h2>
-          <div className="flex items-center gap-3">
+          <Link
+            href={`/seller/${item.user_id}`}
+            className="group flex items-center gap-3 rounded-xl p-1 -m-1 transition hover:bg-neutral-50"
+          >
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cream text-xl font-extrabold text-walnut">
               {(item.contact_name || item.seller?.name || "?").slice(0, 1).toUpperCase()}
             </div>
-            <div>
-              <div className="font-bold">{item.contact_name || item.seller?.name}</div>
+            <div className="min-w-0">
+              <div className="truncate font-bold group-hover:text-brand">
+                {item.contact_name || item.seller?.name}
+              </div>
               {item.seller && (
                 <div className="text-xs text-neutral-500">
                   Jangak · {formatDate(item.seller.created_at, locale)}
                 </div>
               )}
             </div>
-          </div>
+            <span className="ml-auto shrink-0 text-neutral-300 group-hover:text-brand">›</span>
+          </Link>
         </section>
 
         <section className="rounded-2xl bg-white p-5 shadow-sm">
