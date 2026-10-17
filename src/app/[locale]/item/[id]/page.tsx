@@ -9,6 +9,7 @@ import ShowPhone from "@/components/ShowPhone";
 import FavoriteButton from "@/components/FavoriteButton";
 import MessageSellerButton from "@/components/MessageSellerButton";
 import ReportButton from "@/components/ReportButton";
+import Stars from "@/components/Stars";
 
 type Listing = {
   id: number;
@@ -27,7 +28,7 @@ type Listing = {
   created_at: string;
   category: NamedRow | null;
   region: NamedRow | null;
-  seller: { name: string | null; created_at: string } | null;
+  seller: { name: string | null; created_at: string; rating_count: number; rating_sum: number } | null;
   photos: { path: string; sort: number }[];
 };
 
@@ -37,7 +38,7 @@ async function getListing(id: string) {
   const { data } = await supabase
     .from("listings")
     .select(
-      "id, user_id, status, title, description, price, currency, deal_type, negotiable, condition, seller_type, contact_name, contact_phone, created_at, category:categories(name_ru, name_ky, name_uz), region:regions(name_ru, name_ky, name_uz), seller:profiles!listings_user_id_fkey(name, created_at), photos:listing_photos(path, sort)",
+      "id, user_id, status, title, description, price, currency, deal_type, negotiable, condition, seller_type, contact_name, contact_phone, created_at, category:categories(name_ru, name_ky, name_uz), region:regions(name_ru, name_ky, name_uz), seller:profiles!listings_user_id_fkey(name, created_at, rating_count, rating_sum), photos:listing_photos(path, sort)",
     )
     .eq("id", Number(id))
     .maybeSingle();
@@ -193,6 +194,15 @@ export default async function ItemPage({
               <div className="truncate font-bold group-hover:text-brand">
                 {item.contact_name || item.seller?.name}
               </div>
+              {item.seller && item.seller.rating_count > 0 && (
+                <div className="flex items-center gap-1 text-xs text-neutral-500">
+                  <Stars value={item.seller.rating_sum / item.seller.rating_count} size={13} />
+                  <span className="font-bold">
+                    {(item.seller.rating_sum / item.seller.rating_count).toFixed(1)}
+                  </span>
+                  <span>({item.seller.rating_count})</span>
+                </div>
+              )}
               {item.seller && (
                 <div className="text-xs text-neutral-500">
                   Jangak · {formatDate(item.seller.created_at, locale)}
