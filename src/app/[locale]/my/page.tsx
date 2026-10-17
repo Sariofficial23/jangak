@@ -78,6 +78,14 @@ export default async function MyListingsPage({
                   </div>
                   <div className="mt-auto flex flex-wrap items-center gap-2 pt-1">
                     <MyListingActions id={l.id} status={l.status} />
+                    {l.status !== "rejected" && (
+                      <Link
+                        href={`/edit/${l.id}`}
+                        className="rounded-lg bg-neutral-100 px-3 py-1 text-sm font-bold text-neutral-700 transition hover:bg-neutral-200"
+                      >
+                        ✏️ {t("listing.edit")}
+                      </Link>
+                    )}
                     {l.status === "active" && (
                       <Link
                         href={`/promote/${l.id}`}

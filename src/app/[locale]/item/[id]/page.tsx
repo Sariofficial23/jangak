@@ -158,6 +158,14 @@ export default async function ItemPage({
           <div className="text-2xl font-extrabold">{price}</div>
           {item.negotiable && <div className="text-sm text-neutral-500">{t("negotiable")}</div>}
           <div className="mt-5 flex flex-col gap-3">
+            {isOwner && item.status !== "rejected" && (
+              <Link
+                href={`/edit/${item.id}`}
+                className="flex h-12 items-center justify-center rounded-xl bg-neutral-100 font-extrabold text-walnut transition hover:bg-neutral-200"
+              >
+                ✏️ {t("edit")}
+              </Link>
+            )}
             {!isOwner && (
               <MessageSellerButton listingId={item.id} loggedIn={!!user} label={t("message")} />
             )}
