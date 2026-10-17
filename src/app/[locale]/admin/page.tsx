@@ -46,6 +46,10 @@ export default async function AdminPage({
   const counts = await Promise.all(
     TABS.map((x) => supabase.from("listings").select("id", { count: "exact", head: true }).eq("status", x)),
   );
+  const { count: reportsCount } = await supabase
+    .from("reports")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "open");
   const countByTab = Object.fromEntries(TABS.map((x, i) => [x, counts[i].count ?? 0])) as Record<
     (typeof TABS)[number],
     number
@@ -62,7 +66,15 @@ export default async function AdminPage({
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-6 sm:py-8">
-      <h1 className="mb-5 text-2xl font-extrabold text-walnut sm:text-3xl">{t("admin.title")}</h1>
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-extrabold text-walnut sm:text-3xl">{t("admin.title")}</h1>
+        <Link
+          href="/admin/reports"
+          className="rounded-xl bg-red-50 px-3 py-2 text-sm font-bold text-red-700 transition hover:bg-red-100"
+        >
+          ⚑ {t("report.adminLink")} ({reportsCount ?? 0})
+        </Link>
+      </div>
 
       <nav className="mb-5 flex gap-1 overflow-x-auto border-b border-neutral-200">
         {TABS.map((x) => (

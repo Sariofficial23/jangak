@@ -189,5 +189,30 @@
     "user": "Foydalanuvchi",
     "notFound": "Yozishma topilmadi",
     "back": "Xabarlarga"
+  },
+  "report": {
+    "report": "Shikoyat qilish",
+    "title": "E'longa shikoyat qilish",
+    "choose": "Sababni tanlang",
+    "commentPlaceholder": "Izoh (ixtiyoriy)",
+    "send": "Yuborish",
+    "cancel": "Bekor qilish",
+    "thanks": "Rahmat, shikoyat yuborildi",
+    "already": "Siz bu e'longa avval shikoyat qilgansiz",
+    "reasons": {
+      "spam": "Spam yoki reklama",
+      "prohibited": "Taqiqlangan mahsulot",
+      "fraud": "Firibgarlik",
+      "wrong_info": "Ishonchsiz ma'lumot",
+      "sold": "Allaqachon sotilgan",
+      "other": "Boshqa"
+    },
+    "adminTitle": "Shikoyatlar",
+    "adminLink": "Shikoyatlar",
+    "empty": "Ochiq shikoyatlar yo'q",
+    "from": "Kimdan",
+    "listingGone": "E'lon o'chirilgan",
+    "hideListing": "E'lonni yashirish",
+    "dismiss": "Shikoyatni rad etish"
   }
 }

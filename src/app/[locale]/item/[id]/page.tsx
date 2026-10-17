@@ -8,6 +8,7 @@ import type { NamedRow } from "@/lib/listings";
 import ShowPhone from "@/components/ShowPhone";
 import FavoriteButton from "@/components/FavoriteButton";
 import MessageSellerButton from "@/components/MessageSellerButton";
+import ReportButton from "@/components/ReportButton";
 
 type Listing = {
   id: number;
@@ -191,6 +192,10 @@ export default async function ItemPage({
           <h2 className="mb-2 text-xs font-bold uppercase tracking-wide text-neutral-500">{t("location")}</h2>
           <p className="font-semibold">📍 {localName(item.region, locale)}</p>
         </section>
+
+        {!isOwner && item.status === "active" && (
+          <ReportButton listingId={item.id} loggedIn={!!user} />
+        )}
       </aside>
       </div>
     </div>
