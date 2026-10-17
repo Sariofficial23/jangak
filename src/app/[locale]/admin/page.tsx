@@ -54,7 +54,7 @@ export default async function AdminPage({
   const { data, error } = await supabase
     .from("listings")
     .select(
-      "id, title, description, price, currency, deal_type, status, contact_name, contact_phone, created_at, category:categories(name_ru, name_ky, name_uz), region:regions(name_ru, name_ky, name_uz), seller:profiles(name), photos:listing_photos(path, sort)",
+      "id, title, description, price, currency, deal_type, status, contact_name, contact_phone, created_at, category:categories(name_ru, name_ky, name_uz), region:regions(name_ru, name_ky, name_uz), seller:profiles!listings_user_id_fkey(name), photos:listing_photos(path, sort)",
     )
     .eq("status", tab)
     .order("created_at", { ascending: true });
