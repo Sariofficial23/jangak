@@ -1,8 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import SearchBar from "@/components/SearchBar";
 import ListingCard from "@/components/ListingCard";
+import Image from "next/image";
 import { categories } from "@/lib/categories";
-import CategoryIcon from "@/components/CategoryIcon";
 import { Link } from "@/i18n/navigation";
 import { getRefs } from "@/lib/refs";
 import { LISTING_CARD_SELECT, type ListingCardData } from "@/lib/listings";
@@ -48,10 +48,16 @@ export default async function HomePage({
                 className="group flex flex-col items-center gap-2 text-center"
               >
                 <span
-                  className="flex h-16 w-16 items-center justify-center rounded-full ring-1 ring-walnut/5 transition group-hover:-translate-y-1 group-hover:shadow-md sm:h-20 sm:w-20"
+                  className="relative h-16 w-16 overflow-hidden rounded-full ring-1 ring-walnut/5 transition group-hover:-translate-y-1 group-hover:shadow-md sm:h-20 sm:w-20"
                   style={{ backgroundColor: c.bg }}
                 >
-                  <CategoryIcon name={c.key} className="h-10 w-10 sm:h-12 sm:w-12" />
+                  <Image
+                    src={`/categories/${c.key}.png`}
+                    alt=""
+                    fill
+                    sizes="(min-width: 640px) 80px, 64px"
+                    className="object-cover"
+                  />
                 </span>
                 <span className="text-sm font-semibold leading-tight group-hover:text-brand">
                   {t(`categories.${c.key}`)}
