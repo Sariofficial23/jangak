@@ -50,7 +50,7 @@ export default async function ChatThreadPage({
   const cover = conv.listing?.photos?.slice().sort((a, b) => a.sort - b.sort)[0]?.path ?? null;
 
   return (
-    <div className="flex h-[calc(100dvh-4rem)] flex-col">
+    <div className="flex h-[calc(100dvh-4rem-var(--mobile-nav-height))] flex-col">
       <div className="flex items-center gap-3 border-b border-neutral-200 bg-white px-4 py-2">
         <Link href="/chat" className="shrink-0 text-xl text-neutral-500 hover:text-brand" aria-label={t("back")}>
           ←

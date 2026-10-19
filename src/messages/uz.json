@@ -305,5 +305,14 @@
     "iphoneTitle": "Sizda iPhone bormi?",
     "iphone": "Bu APK faqat Android uchun. iPhone’da saytni Safari orqali ochib, «Ulashish» → «Bosh ekranga qo‘shish» tugmasini bosing. Jangak belgisi boshqa ilovalar yonida paydo bo‘ladi.",
     "website": "Jangak saytini ochish"
+  },
+  "mobileNav": {
+    "label": "Asosiy navigatsiya",
+    "home": "Bosh sahifa",
+    "favorites": "Saralangan",
+    "create": "E’lon berish",
+    "chat": "Chat",
+    "profile": "Profil",
+    "unread": "O‘qilmagan xabarlar: {count}"
   }
 }
