@@ -279,5 +279,26 @@
     "adminEmpty": "Yangi buyurtmalar yo'q",
     "buyer": "Xaridor",
     "listingGone": "E'lon o'chirilgan"
+  },
+  "appDownload": {
+    "title": "Jangak doimo yoningizda",
+    "subtitle": "Qirg‘iziston e’lonlari — Android ilovasida.",
+    "cta": "Ilovani yuklab olish",
+    "badge": "Android · Sinov versiyasi",
+    "description": "Jangak orqali telefoningizdan sotib oling, soting va keraklisini toping. Xuddi shu e’lonlar va hisobingiz — alohida ilovada.",
+    "android": "Android uchun yuklash",
+    "share": "Havolani ulashish",
+    "shareText": "Android uchun Jangak ilovasini yuklab oling — Qirg‘iziston e’lonlari.",
+    "copied": "Havola nusxalandi. Uni Telegram, WhatsApp yoki boshqa chatga yuboring.",
+    "copyFallback": "Bu sahifa manzilini brauzerdan nusxalab, do‘stlaringizga yuboring.",
+    "fileInfo": "APK · 3,9 MB · Google Playsiz, to‘g‘ridan-to‘g‘ri saytdan o‘rnatiladi.",
+    "installTitle": "Qanday o‘rnatiladi",
+    "step1": "Bu sahifani Android telefoningizda ochib, «Android uchun yuklash» tugmasini bosing.",
+    "step2": "Yuklangan APK faylini oching. Android ruxsat so‘rasa, faqat Jangakni o‘rnatish uchun shu brauzerdan o‘rnatishga ruxsat bering.",
+    "step3": "«O‘rnatish», so‘ng «Ochish» tugmasini bosing. Keyin brauzerdan o‘rnatish ruxsatini o‘chirishingiz mumkin. Qurilma faylni bloklasa, Play Himoyani o‘chirmang — saytdan foydalaning.",
+    "internet": "Internet kerak. Ilova saytimizdan foydalanadi: sayt vaqtincha ishlamasa, ilova ham e’lonlarni yuklay olmaydi. Bu sinov versiyasi; yangilanishlar shu sahifadan qo‘lda o‘rnatiladi.",
+    "iphoneTitle": "Sizda iPhone bormi?",
+    "iphone": "Bu APK faqat Android uchun. iPhone’da saytni Safari orqali ochib, «Ulashish» → «Bosh ekranga qo‘shish» tugmasini bosing. Jangak belgisi boshqa ilovalar yonida paydo bo‘ladi.",
+    "website": "Jangak saytini ochish"
   }
 }

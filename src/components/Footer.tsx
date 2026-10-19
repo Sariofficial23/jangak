@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const app = useTranslations("appDownload");
   const year = new Date().getFullYear();
 
   return (
@@ -12,7 +14,8 @@ export default function Footer() {
           <Image src="/brand/jangak-logo-white.svg" alt="Jangak.kg" width={140} height={38} />
           <p className="mt-2 text-sm text-kernel">{t("tagline")}</p>
         </div>
-        <nav className="flex gap-6 text-sm">
+        <nav className="flex flex-wrap gap-6 text-sm">
+          <Link href="/download" className="font-semibold text-kernel hover:underline">{app("cta")}</Link>
           <a href="#" className="hover:text-kernel">{t("help")}</a>
           <a href="#" className="hover:text-kernel">{t("rules")}</a>
           <a href="#" className="hover:text-kernel">{t("privacy")}</a>
