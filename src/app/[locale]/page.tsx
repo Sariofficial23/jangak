@@ -8,6 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { getRefs } from "@/lib/refs";
 import { LISTING_CARD_SELECT, type ListingCardData } from "@/lib/listings";
 import { createClient } from "@/lib/supabase/server";
+import { demoListings } from "@/lib/demo-listings";
 
 export default async function HomePage({
   params,
@@ -27,7 +28,7 @@ export default async function HomePage({
     .order("is_vip", { ascending: false })
     .order("bumped_at", { ascending: false })
     .limit(24);
-  const listings = (data ?? []) as unknown as ListingCardData[];
+  const listings = [...((data ?? []) as unknown as ListingCardData[]), ...demoListings];
 
   return (
     <>
@@ -75,6 +76,7 @@ export default async function HomePage({
         <h2 className="mb-4 text-xl font-extrabold text-walnut">
           {t("home.latest")}
         </h2>
+        <p className="mb-5 text-sm text-neutral-500">{t("listing.demoFeedNotice")}</p>
         {listings.length ? (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {listings.map((item) => (

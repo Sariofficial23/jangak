@@ -5,6 +5,7 @@ import SaveSearchButton from "@/components/SaveSearchButton";
 import { getRefs } from "@/lib/refs";
 import { LISTING_CARD_SELECT, type ListingCardData } from "@/lib/listings";
 import { createClient } from "@/lib/supabase/server";
+import { filterDemoListings } from "@/lib/demo-listings";
 
 type Params = Record<string, string | undefined>;
 
@@ -50,7 +51,9 @@ export default async function SearchPage({
       : query.order("price", { ascending: sort === "cheap", nullsFirst: false });
 
   const { data, count } = await query.limit(PAGE_SIZE);
-  const listings = (data ?? []) as unknown as ListingCardData[];
+  const demos = filterDemoListings({ q, cat: sp.cat, region: sp.region, min: sp.min, max: sp.max, cond, seller, sort });
+  const listings = [...((data ?? []) as unknown as ListingCardData[]), ...demos];
+  if (sort !== "new") listings.sort((a, b) => a.price === null ? (b.price === null ? 0 : 1) : b.price === null ? -1 : (a.price - b.price) * (sort === "cheap" ? 1 : -1));
 
   const {
     data: { user },
@@ -148,10 +151,11 @@ export default async function SearchPage({
 
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h1 className="text-lg font-extrabold text-walnut">
-            {category ? category.name : t("search.results")} · {t("search.found", { count: count ?? 0 })}
+            {category ? category.name : t("search.results")} · {t("search.found", { count: (count ?? 0) + demos.length })}
           </h1>
           <SaveSearchButton params={savedParams} loggedIn={!!user} />
         </div>
+        {demos.length > 0 && <p className="mb-4 text-sm text-neutral-500">{t("listing.demoFeedNotice")}</p>}
         {listings.length ? (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {listings.map((item) => (

@@ -87,7 +87,12 @@
     "statusInactive": "E'lon e'londan olingan.",
     "whatsapp": "WhatsApp'da yozish",
     "whatsappText": "Assalomu alaykum! Jangak.kg'dagi «{title}» e'loningiz qiziqtirdi",
-    "edit": "Tahrirlash"
+    "edit": "Tahrirlash",
+    "demoBadge": "Namuna",
+    "demoNotice": "Bu — namuna e’lon. Surat, narx, shahar va tavsif sayt bilan tanishish uchun keltirilgan. Bu haqiqiy taklif emas.",
+    "demoContacts": "Bu namuna: e’lon bo‘yicha qo‘ng‘iroqlar, xabarlar va bitimlar mavjud emas. Haqiqiy taklif joylash uchun «E’lon berish» tugmasini bosing.",
+    "demoFeedNotice": "«Namuna» belgili kartalar e’lonlar qanday ishlashini ko‘rsatadi. Ular haqiqiy taklif emas.",
+    "perMonth": "oyiga"
   },
   "auth": {
     "loginTitle": "Kirish",

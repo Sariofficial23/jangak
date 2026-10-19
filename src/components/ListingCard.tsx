@@ -25,7 +25,7 @@ export default async function ListingCard({ item }: { item: ListingCardData }) {
       <div className="relative aspect-[4/3] bg-neutral-100">
         {cover ? (
           <Image
-            src={photoUrl(cover)}
+            src={item.demo ? cover : photoUrl(cover)}
             alt={item.title}
             fill
             unoptimized
@@ -36,6 +36,9 @@ export default async function ListingCard({ item }: { item: ListingCardData }) {
           <div className="flex h-full items-center justify-center text-sm text-neutral-400">
             {t("noPhoto")}
           </div>
+        )}
+        {item.demo && (
+          <span className="absolute left-2 top-2 rounded-md bg-white/95 px-2 py-1 text-xs font-bold text-brand">{t("demoBadge")}</span>
         )}
         {item.is_vip && (
           <span className="absolute left-2 top-2 rounded-md bg-kernel px-2 py-0.5 text-xs font-extrabold text-walnut">

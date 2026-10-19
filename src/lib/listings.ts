@@ -3,6 +3,7 @@
 export type NamedRow = { name_ru: string; name_ky: string; name_uz: string };
 
 export type ListingCardData = {
+  demo?: boolean;
   id: number;
   title: string;
   price: number | null;

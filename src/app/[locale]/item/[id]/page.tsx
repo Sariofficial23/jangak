@@ -10,6 +10,8 @@ import FavoriteButton from "@/components/FavoriteButton";
 import MessageSellerButton from "@/components/MessageSellerButton";
 import ReportButton from "@/components/ReportButton";
 import Stars from "@/components/Stars";
+import DemoListingDetail from "@/components/DemoListingDetail";
+import { getDemoListing } from "@/lib/demo-listings";
 
 type Listing = {
   id: number;
@@ -51,6 +53,8 @@ export async function generateMetadata({
   params: Promise<{ locale: string; id: string }>;
 }) {
   const { id } = await params;
+  const demo = getDemoListing(id);
+  if (demo) return { title: `${demo.title} — Jangak.kg`, robots: { index: false, follow: true } };
   const item = await getListing(id);
   return item ? { title: `${item.title} — Jangak.kg` } : {};
 }
@@ -62,6 +66,8 @@ export default async function ItemPage({
 }) {
   const { locale, id } = await params;
   setRequestLocale(locale);
+  const demo = getDemoListing(id);
+  if (demo) return <DemoListingDetail item={demo} locale={locale} />;
   const t = await getTranslations("listing");
   const item = await getListing(id);
   const supabase = await createClient();
