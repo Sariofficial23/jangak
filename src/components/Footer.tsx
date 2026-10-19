@@ -15,7 +15,7 @@ export default function Footer() {
           <p className="mt-2 text-sm text-kernel">{t("tagline")}</p>
         </div>
         <nav className="flex flex-wrap gap-6 text-sm">
-          <Link href="/download" className="font-semibold text-kernel hover:underline">{app("cta")}</Link>
+          <Link href="/download" className="browser-install-only font-semibold text-kernel hover:underline">{app("cta")}</Link>
           <a href="#" className="hover:text-kernel">{t("help")}</a>
           <a href="#" className="hover:text-kernel">{t("rules")}</a>
           <a href="#" className="hover:text-kernel">{t("privacy")}</a>

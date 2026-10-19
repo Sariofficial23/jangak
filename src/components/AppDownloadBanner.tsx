@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 export default function AppDownloadBanner() {
   const t = useTranslations("appDownload");
   return (
-    <aside className="mx-auto max-w-6xl px-4 pt-6">
+    <aside className="browser-install-only mx-auto max-w-6xl px-4 pt-6">
       <div className="flex flex-wrap items-center gap-4 rounded-3xl bg-brand p-5 text-white sm:p-6">
         <Image src="/brand/jangak-app-icon-192.png" alt="" width={64} height={64} className="rounded-2xl" />
         <div className="min-w-0 flex-1 basis-48">

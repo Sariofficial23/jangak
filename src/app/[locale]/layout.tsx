@@ -6,6 +6,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Script from "next/script";
+import NativeAppEnvironment from "@/components/NativeAppEnvironment";
+import { nativeAppDetectionScript } from "@/lib/native-app";
 import "../globals.css";
 
 const inter = Inter({
@@ -46,9 +49,11 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={inter.variable}>
+    <html lang={locale} className={inter.variable} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col pb-[var(--mobile-nav-height)] font-sans antialiased">
+        <Script id="jangak-native-environment" strategy="beforeInteractive">{nativeAppDetectionScript}</Script>
         <NextIntlClientProvider>
+          <NativeAppEnvironment />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

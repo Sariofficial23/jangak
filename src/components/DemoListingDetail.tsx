@@ -29,7 +29,7 @@ export default async function DemoListingDetail({ item, locale }: { item: DemoLi
           <p className="mt-3 text-sm text-neutral-500">{localName(item.region, locale)}</p>
           <div className="mt-6 rounded-xl bg-cream p-4 text-sm leading-relaxed text-walnut">{t("listing.demoContacts")}</div>
           <Link href="/post" className="mt-5 block rounded-xl bg-brand px-4 py-3 text-center font-bold text-white hover:bg-brand/90">{t("header.post")}</Link>
-          <Link href="/download" className="mt-3 block rounded-xl border border-brand/20 px-4 py-3 text-center font-bold text-brand hover:bg-brand/5">{t("appDownload.cta")}</Link>
+          <Link href="/download" className="browser-install-only mt-3 block rounded-xl border border-brand/20 px-4 py-3 text-center font-bold text-brand hover:bg-brand/5">{t("appDownload.cta")}</Link>
         </aside>
       </div>
     </div>

@@ -304,7 +304,8 @@
     "internet": "Internet kerak. Ilova saytimizdan foydalanadi: sayt vaqtincha ishlamasa, ilova ham e’lonlarni yuklay olmaydi. Bu sinov versiyasi; yangilanishlar shu sahifadan qo‘lda o‘rnatiladi.",
     "iphoneTitle": "Sizda iPhone bormi?",
     "iphone": "Bu APK faqat Android uchun. iPhone’da saytni Safari orqali ochib, «Ulashish» → «Bosh ekranga qo‘shish» tugmasini bosing. Jangak belgisi boshqa ilovalar yonida paydo bo‘ladi.",
-    "website": "Jangak saytini ochish"
+    "website": "Jangak saytini ochish",
+    "alreadyInstalled": "Jangak ilovasi allaqachon o‘rnatilgan. Havolani do‘stlaringizga ulashishingiz mumkin."
   },
   "mobileNav": {
     "label": "Asosiy navigatsiya",

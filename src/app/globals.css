@@ -26,6 +26,18 @@ body {
   }
 }
 
+.native-app-only {
+  display: none;
+}
+
+html[data-native-app="true"] .browser-install-only {
+  display: none;
+}
+
+html[data-native-app="true"] .native-app-only {
+  display: block;
+}
+
 /* Плавное появление страницы при каждом переходе */
 @keyframes pageIn {
   from {
