@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Script from "next/script";
 import NativeAppEnvironment from "@/components/NativeAppEnvironment";
+import NativeAppSplash from "@/components/NativeAppSplash";
 import { nativeAppDetectionScript } from "@/lib/native-app";
 import "../globals.css";
 
@@ -54,6 +55,7 @@ export default async function LocaleLayout({
         <Script id="jangak-native-environment" strategy="beforeInteractive">{nativeAppDetectionScript}</Script>
         <NextIntlClientProvider>
           <NativeAppEnvironment />
+          <NativeAppSplash />
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />

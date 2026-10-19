@@ -315,5 +315,9 @@
     "chat": "Chat",
     "profile": "Profil",
     "unread": "O‘qilmagan xabarlar: {count}"
+  },
+  "splash": {
+    "label": "Jangak ishga tushmoqda",
+    "skip": "O‘tkazib yuborish"
   }
 }
